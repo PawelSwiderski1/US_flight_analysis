@@ -20,8 +20,8 @@ variable_descriptions <- read.csv("dataverse_files/variable-descriptions.csv")
 df_2007 <- read.csv("dataverse_files/2007.csv")
 df_2006 <- read.csv("dataverse_files/2006.csv")
 
-df <- df_2007
-#df <- rbind(df_2007,df_2006)
+#df <- df_2007
+df <- rbind(df_2007,df_2006)
 
 df$DayOfWeek_name <- recode(df$DayOfWeek, 
                         "7"="Sunday",
@@ -207,7 +207,7 @@ routesDelayPlot <- plot_usmap()+geom_point(aes(x,y),colour='red',data=routes_top
 
 #Opóźnienia na lotniskach
 airports2<-df
-
+enplanments<-length(df$Year)*100
 airports_departures<-group_by(airports2,Origin)
 airports_departures<-summarise(airports_departures,departing_flights_number=length(Origin),mean_dep_delay=mean(DepDelay,na.rm=TRUE))
 airports_arrivals<-group_by(airports2,Dest)
