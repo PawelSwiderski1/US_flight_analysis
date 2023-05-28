@@ -205,28 +205,9 @@ routes_top_10_mean_delays<-usmap_transform(routes_top_10_mean_delays,input_names
 routesDelayPlot <- plot_usmap()+geom_point(aes(x,y),colour='red',data=routes_top_10_mean_delays)+geom_segment(aes(x=x,y=y,xend=x_2,yend=y_2),colour='red',data=routes_top_10_mean_delays)
 
 
-# routes_top_10_ratio_arr_delays<-head(as.data.frame(arrange(filter(route_delays,flights_number>100),-delays_ratio)),10)
-# routes_top_10_ratio_arr_delays<-merge(routes_top_10_ratio_delays,airports,by.x='Origin',by.y='iata')
-# routes_top_10_ratio_arr_delays<-routes_top_10_ratio_delays[,c('Origin','route','Dest','Arr_delays_ratio','lat','long','state')]
-# colnames(routes_top_10_ratio_arr_delays)[c(5,6,7)]<-c('Origin_lat','Origin_long','Origin_state')
-# routes_top_10_ratio_arr_delays<-merge(routes_top_10_ratio_arr_delays,airports,by.x='Dest',by.y='iata')
-# routes_top_10_ratio_arr_delays<-routes_top_10_ratio_arr_delays[,c('Origin','route','Dest','Arr_delays_ratio','Origin_lat','Origin_long','Origin_state','lat','long','state')]
-# colnames(routes_top_10_ratio_arr_delays)[c(8,9,10)]<-c('Dest_lat','Dest_long','Dest_state')
-# routes_top_10_ratio_arr_delays<-as.data.frame(lapply(routes_top_10_ratio_arr_delays,rep,2))
-# routes_top_10_ratio_arr_delays[seq(11,20,1),'Origin_lat']<-routes_top_10_ratio_arr_delays[seq(1,10,1),'Dest_lat']
-# routes_top_10_ratio_arr_delays[seq(11,20,1),'Origin_long']<-routes_top_10_ratio_arr_delays[seq(11,20,1),'Dest_long']
-# routes_top_10_ratio_arr_delays[seq(11,20,1),'Dest_lat']<-routes_top_10_ratio_arr_delays[seq(1,10,1),'Origin_lat']
-# routes_top_10_ratio_arr_delays[seq(11,20,1),'Dest_long']<-routes_top_10_ratio_arr_delays[seq(1,10,1),'Origin_long']
-# 
-# routes_top_10_ratio_arr_delays<-usmap_transform(routes_top_10_ratio_arr_delays,input_names=c("Origin_long","Origin_lat"),output_names=c("x","y"))
-# routes_top_10_ratio_arr_delays<-usmap_transform(routes_top_10_ratio_arr_delays,input_names=c("Dest_long","Dest_lat"),output_names=c("x_2","y_2"))
-# 
-# plot_usmap()+geom_point(aes(x,y),colour='red',data=routes_top_10_ratio_arr_delays)+geom_segment(aes(x=x,y=y,xend=x_2,yend=y_2),colour='red',data=routes_top_10_ratio_arr_delays)
-# 
-
 #Opóźnienia na lotniskach
 airports2<-df
-enplanments<-length(df$Year)
+
 airports_departures<-group_by(airports2,Origin)
 airports_departures<-summarise(airports_departures,departing_flights_number=length(Origin),mean_dep_delay=mean(DepDelay,na.rm=TRUE))
 airports_arrivals<-group_by(airports2,Dest)
@@ -274,8 +255,7 @@ airport_delays<-merge(airport_delays,airport_codes,by.x='Airport',by.y='iata')
 #airport_delays<-read.csv('G:/dataverse_files/2000_lotniska_opoznienia.csv')
 airport_delays_by_category<-group_by(airport_delays,airport_category)
 airport_delays_by_category<-summarise(airport_delays_by_category,dep_delay_ratio=sum(dep_delayed_flights_number)/sum(departing_flights_number),arr_delay_ratio=sum(arr_delayed_flights_number)/sum(arriving_flights_number),overall_delay_ratio=sum(all_delays_number)/sum(flights_number))
-#barplot(airport_delays_by_category$overall_delay_ratio, main="Opóźnienia według kategorii lotniska w 1990r.", xlab="Odsetek lotów opóźnionych",ylab="Kategoria lotniska",names.arg = airport_delays_by_category$airport_category,horiz = TRUE,las=1,xlim=c(0,0.5),col=topo.colors(5))
-#legend("topright",legend=c("Nonprimary","Primary Nonhub","Small Hub","Medium Hub","Large Hub"),fill=TRUE,col=topo.colors(5))
+
 airports_top_10_dep_delays_ratio<-head(as.data.frame(arrange(airport_delays,-dep_delays_ratio)),10)
 airports_top_10_arr_delays_ratio<-head(as.data.frame(arrange(airport_delays,-arr_delays_ratio)),10)
 airports_top_10_all_delays_ratio<-head(as.data.frame(arrange(airport_delays,-all_delays_ratio)),10)
@@ -289,43 +269,17 @@ airport_mean_delays_by_category2<-group_by(airport_delays,airport_category)
 
 airport_mean_delays_by_state<-group_by(airport_delays,state)
 airport_mean_delays_by_state<-summarise(airport_mean_delays_by_state,mean_dep_delay=sum(departing_flights_number*mean_dep_delay)/sum(departing_flights_number),mean_arr_delay=sum(arriving_flights_number*mean_arr_delay)/sum(arriving_flights_number))
+airport_mean_delays_by_state$mean_avg_delay <- (airport_mean_delays_by_state$mean_arr_delay + airport_mean_delays_by_state$mean_dep_delay) / 2
 
-# airport_mean_delays_by_category<-summarise(airport_mean_delays_by_category,mean_dep_delay=sum(departing_flights_number*mean_dep_delay)/sum(departing_flights_number))
-# airport_mean_delays_by_category2<-summarise(airport_mean_delays_by_category2, mean_arr_delay=sum(arriving_flights_number*mean_arr_delay)/sum(arriving_flights_number))
-# airport_mean_delays_by_category<-merge(airport_mean_delays_by_category,airport_mean_delays_by_category2,by="airport_category")
-# ggplot(airport_delays_by_category)+geom_bar(data=airport_delays_by_category,mapping = aes(x=airport_category,y=overall_delay_ratio),inherit.aes = FALSE,stat="identity")
-# ggplot(airport_delays_by_category)+geom_bar(data=airport_delays_by_category,mapping = aes(x=airport_category,y=dep_delay_ratio),inherit.aes = FALSE,stat="identity")
-# ggplot(airport_delays_by_category)+geom_bar(data=airport_delays_by_category,mapping = aes(x=airport_category,y=arr_delay_ratio),inherit.aes = FALSE,stat="identity")
-# 
-# 
-# ggplot(airport_mean_delays_by_category)+geom_bar(data=airport_mean_delays_by_category,mapping = aes(x=airport_category,y=mean_arr_delay),inherit.aes = FALSE,stat="identity")
-# 
-# 
-# top_10_arr_delays_mean<-usmap_transform(airports_top_10_arr_delays_mean,input_names=c("long","lat"),output_names=c("x","y"))
-# plot_usmap()+geom_point(aes(x,y),colour='red',data=top_10_arr_delays_mean)
-# 
-# top_10_dep_delays_mean<-usmap_transform(airports_top_10_dep_delays_mean,input_names=c("long","lat"),output_names=c("x","y"))
-# plot_usmap()+geom_point(aes(x,y),colour='red',data=top_10_dep_delays_mean)
-# 
-# top_10_arr_delays_ratio<-usmap_transform(airports_top_10_arr_delays_ratio,input_names=c("long","lat"),output_names=c("x","y"))
-# plot_usmap()+geom_point(aes(x,y),colour='red',data=top_10_arr_delays_ratio)
-# 
-# top_10_dep_delays_ratio<-usmap_transform(airports_top_10_dep_delays_ratio,input_names=c("long","lat"),output_names=c("x","y"))
-# plot_usmap()+geom_point(aes(x,y),colour='red',data=top_10_dep_delays_ratio)
-# 
-# plot_usmap()+geom_point(aes(x=longitude_deg,y=latitude_deg),data=airport_delays)
-
-stateDelayPlot <- plot_usmap(data=airport_mean_delays_by_state,values="mean_dep_delay",color="red")+
-  scale_fill_continuous(name="Mean departure delay",low="light blue",high="dark blue", label=scales::comma)+
+stateDelayPlot <- plot_usmap(data=airport_mean_delays_by_state,values="mean_avg_delay",color="red")+
+  scale_fill_continuous(name="Mean delay (in minutes)",low="light blue",high="dark blue", label=scales::comma)+
   theme(legend.position = "right",
         panel.background = element_blank(),
         plot.background = element_blank(),
         legend.key.size = unit(1, 'cm') ,
         legend.background = element_rect(fill = 'transparent'))
 stateDelayPlot
-# plot_usmap(data=airport_mean_delays_by_state,values="mean_arr_delay",color="red")+scale_fill_continuous(name="Mean arrival delay in 2000",label=scales::comma)+theme(legend.position = "right")
-# 
-# plot_usmap()+geom_point(aes(x=long,y=lat),colour='red',data=airports_top_10_dep_delays_ratio)
+
 
 
 plane_data_1<- plane_data[, c("tailnum", "year")]

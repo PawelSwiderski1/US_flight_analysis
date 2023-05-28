@@ -31,11 +31,11 @@ ui <-
         )),
         tags$br(), 
         div( style = "width: 90%; margin: auto;",
-        h3("This dashboard contains various visualizatinons
+        h3("This dashboard contains various visualizations
             (plots, maps and more) that aim to answer multiple research questions that
-            we decided are the most interesing and worth exploring. For data we are using
+            we decided are the most interesting and worth exploring. For data we are using
             the 'Data Expo 2009: Airline on time data' from Harvard Dataverse, and we are
-            looking at the years 2007 and 2006. Our team conists of: Paweł Świderski,
+            looking at the years 2007 and 2006. Our team consists of: Paweł Świderski,
             Michał Zajączkowski, and Michał Szewczak.")),
         tags$br()
       ),
@@ -284,9 +284,9 @@ ui <-
               style = "text-align:center"
             ),
             h3(
-              "We can see a clear increase in the percantage of cancelled flights for the older planes.
-            For most of them percantage is far higher than the average for all planes (red dotted line).
-            This can be a result of what we mentioned "
+              "We can see a clear increase in the percentage of cancelled flights for older planes.
+            For most of them, the percentage is far higher than the average for all planes (dotted red line).
+            This can be a result of ... "
             )
           )
         )),
