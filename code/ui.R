@@ -138,15 +138,15 @@ ui <-
       fluidPage(
         fluidRow(column(12,
                         align = 'center',
-                        h1("Some title"))),
+                        h1("Where the highest delays occur?"))),
         fluidRow(column(
           12,
           align = 'center',
           div(
             style = "width: 90%; margin: auto;",
-            h3("Some txt",
-               style = "text-align:center"),
-            h3("More txt")
+            h3("Mean delays by states.",
+               style = "text-align:center")
+            
           )
         )),
         fluidRow(column(
@@ -159,10 +159,10 @@ ui <-
           align = 'center',
           div(
             style = "width: 90%; margin: auto;",
-            h3("We see ...",
+            h3("We see that higher delays occur on the Eastern Coast, where there are many flights and severe weather conditions occur regularly. Strong winds may be important reasons for delays in the middle states, where the delays are bigger than in similar states on the west.",
                style = "text-align:center"),
             h3(
-              "Lets also look at the top 10 flight routues with the biggest delays ..."
+              "Lets also look at the top 10 flight routes with the biggest delays."
             )
           ),
           tags$br()
@@ -177,11 +177,12 @@ ui <-
           align = 'center',
           div(
             style = "width: 90%; margin: auto;",
-            h3("We can see that...",
+            h3("We can see that all of them depart or arrive at airports located in the states with the biggest delays. Most of the routes begin/end at a big airport, 
+               which might also be an important factor.",
                style = "text-align:center"),
             h3(
               "If we now look at this visualization of distribuition of risks of different categories
-             of strong winds we see a lot of similiarities ..."
+             of strong winds we see a lot of similiarities with the maps of delays."
             )
           ),
           tags$br()
@@ -286,7 +287,7 @@ ui <-
             h3(
               "We can see a clear increase in the percentage of cancelled flights for older planes.
             For most of them, the percentage is far higher than the average for all planes (dotted red line).
-            This can be a result of ... "
+            This can be a result of several factors, including the higher likelihood of technical issues and potential vulnerability to weather conditions."
             )
           )
         )),
